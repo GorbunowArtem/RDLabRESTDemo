@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +26,7 @@ namespace RDLabRESTDemo.Controllers
 			Ok(_gamesRepository.Get());
 
 
-		[HttpGet]
-		[Route("{id:int}")]
+		[HttpGet("{id:int}")]
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public ActionResult<Game> Get(int id)
@@ -50,8 +50,7 @@ namespace RDLabRESTDemo.Controllers
 			return CreatedAtAction(nameof(Add), "api/v1/games", game);
 		}
 
-		[HttpPut]
-		[Route("{id:int}")]
+		[HttpPut("{id:int}")]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public IActionResult Update(int id, [FromBody] Game game)
 		{
@@ -59,16 +58,14 @@ namespace RDLabRESTDemo.Controllers
 			return Ok();
 		}
 
-		[HttpPatch]
-		[Route("{id:int}")]
+		[HttpPatch("{id:int}")]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public IActionResult Update(int id, string title)
 		{
 			return Ok();
 		}
 
-		[HttpDelete]
-		[Route("{id:int}")]
+		[HttpDelete("{id:int}")]
 		[ProducesResponseType((int) HttpStatusCode.NoContent)]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public IActionResult Delete(int id)

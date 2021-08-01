@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +23,16 @@ namespace RDLabRESTDemo
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllers();
+			services.AddControllers()
+				.AddJsonOptions(ops =>
+				{
+					ops.JsonSerializerOptions.IgnoreNullValues = true;
+					ops.JsonSerializerOptions.WriteIndented = true;
+					ops.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+					ops.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+					ops.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				});
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo {Title = "RDLabRESTDemo", Version = "v1"});
