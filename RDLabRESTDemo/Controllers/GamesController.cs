@@ -26,7 +26,7 @@ namespace RDLabRESTDemo.Controllers
 			Ok(_gamesRepository.Get());
 
 
-		[HttpGet("{id:int}")]
+		[HttpGet("{id:int}", Name = "Get")]
 		[ProducesResponseType((int) HttpStatusCode.NotFound)]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public ActionResult<Game> Get(int id)
@@ -41,7 +41,7 @@ namespace RDLabRESTDemo.Controllers
 			return Ok(game);
 		}
 
-		[HttpPost]
+		[HttpPost(Name = "Add")]
 		[ProducesResponseType((int) HttpStatusCode.Created)]
 		public ActionResult<Game> Add([FromBody] Game game)
 		{
@@ -50,7 +50,7 @@ namespace RDLabRESTDemo.Controllers
 			return CreatedAtAction(nameof(Add), "api/v1/games", game);
 		}
 
-		[HttpPut("{id:int}")]
+		[HttpPut("{id:int}", Name = "Update")]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public IActionResult Update(int id, [FromBody] Game game)
 		{
@@ -58,14 +58,14 @@ namespace RDLabRESTDemo.Controllers
 			return Ok();
 		}
 
-		[HttpPatch("{id:int}")]
+		[HttpPatch("{id:int}", Name = "PartialUpdate")]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public IActionResult Update(int id, string title)
 		{
 			return Ok();
 		}
 
-		[HttpDelete("{id:int}")]
+		[HttpDelete("{id:int}", Name = "Delete")]
 		[ProducesResponseType((int) HttpStatusCode.NoContent)]
 		[ProducesResponseType((int) HttpStatusCode.OK)]
 		public IActionResult Delete(int id)

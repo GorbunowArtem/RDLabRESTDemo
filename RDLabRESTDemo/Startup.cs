@@ -6,8 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RDLabRESTDemo.Controllers;
 using RDLabRESTDemo.Repositories.Game;
 using RDLabRESTDemo.Repositories.Weather;
+using Sciensoft.Hateoas.Extensions;
 
 namespace RDLabRESTDemo
 {
@@ -31,6 +33,22 @@ namespace RDLabRESTDemo
 					ops.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 					ops.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
 					ops.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				})
+				.AddLink(policy =>
+				{
+					policy.AddPolicy<Game>(game =>
+					{
+						game.AddSelf(g => g.Id)
+							.AddRoute(g => g.Id, "Update")
+							.AddRoute(g => g.Id, "PartialUpdate")
+							.AddRoute(g => g.Id, "Delete")
+							.AddRoute( g => g.Id, "Add");
+					});
+
+					policy.AddPolicy<Publisher>(publisher =>
+					{
+						publisher.AddSelf(p => p.Id);
+					});
 				});
 
 			services.AddSwaggerGen(c =>
